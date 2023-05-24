@@ -22,46 +22,47 @@ st.write("Upload a CSV file and select columns to visualize. Ask questions about
 
 # Load data if a file has been uploaded
 if uploaded_file is not None:
-df = pd.read_csv(uploaded_file)
+    df = pd.read_csv(uploaded_file)
 
-# Display the raw data table
-st.subheader("Raw Data")
-st.write(df)
+    # Display the raw data table
+    st.subheader("Raw Data")
+    st.write(df)
 
-# Allow the user to select columns for visualization
-columns = list(df.columns)
-x_axis = st.sidebar.selectbox("Select X Axis", columns)
-y_axis = st.sidebar.selectbox("Select Y Axis", columns)
+    # Allow the user to select columns for visualization
+    columns = list(df.columns)
+    x_axis = st.sidebar.selectbox("Select X Axis", columns)
+    y_axis = st.sidebar.selectbox("Select Y Axis", columns)
 
-# Create a chart using Altair
-chart = alt.Chart(df).mark_bar().encode(
-x=x_axis,
-y=y_axis
-).properties(
-width=700,
-height=500
-)
+    # Create a chart using Altair
+    chart = alt.Chart(df).mark_bar().encode(
+        x=x_axis,
+        y=y_axis
+    ).properties(
+        width=700,
+        height=500
+    )
 
-# Display the chart
-st.subheader("Data Visualization")
-st.altair_chart(chart, use_container_width=True)
+    # Display the chart
+    st.subheader("Data Visualization")
+    st.altair_chart(chart, use_container_width=True)
 
-# Allow the user to ask questions using OpenAI
-question = st.text_input("Ask a question about the data")
+    # Allow the user to ask questions using OpenAI
+    question = st.text_input("Ask a question about the data")
 
-if st.button("Ask"):
-if openai_api_key:
-response = openai.Completion.create(
-engine="text-davinci-002",
-prompt=question,
-max_tokens=100,
-n=1,
-stop=None,
-temperature=0.5,
-)
+    if st.button("Ask"):
+        if openai_api_key:
+            response = openai.Completion.create(
+                engine="text-davinci-002",
+                prompt=question,
+                max_tokens=100,
+                n=1,
+                stop=None,
+                temperature=0.5,
+            )
 
-answer = response.choices[0].text.strip()
-st.subheader("Answer")
-st.write(answer)
-else:
-st.warning("Please enter your OpenAI API key in the sidebar.")
+            answer = response.choices[0].text.strip()
+            st.subheader("Answer")
+            st.write(answer)
+        else:
+            st.warning("Please enter your OpenAI API key in the sidebar.")
+
