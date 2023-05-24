@@ -30,8 +30,8 @@ if uploaded_file is not None:
     selected_column = st.selectbox("Select a numerical column for the slider", numeric_columns)
 
     # Create a slider for the selected column
-    min_value = df[selected_column].min()
-    max_value = df[selected_column].max()
+    min_value = float(df[selected_column].min())
+    max_value = float(df[selected_column].max())
     default_value = (min_value + max_value) / 2
     slider_value = st.slider("Select a value on the slider", min_value, max_value, default_value)
 
